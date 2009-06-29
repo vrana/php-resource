@@ -62,4 +62,10 @@ abstract class Resource {
 		
 		return $return;
 	}
+	
+	public function __toString() {
+		return get_called_class() . " $this->resource";
+	}
+	
+	//! __set_state, __sleep
 }
