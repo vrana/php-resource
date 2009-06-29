@@ -56,7 +56,7 @@ abstract class Resource {
 		}
 		
 		$function = static::$prefix . ((substr(static::$prefix, -1) == '_') ? preg_replace('~[A-Z]~', '_\\0', $name) : $name) . static::$suffix;
-		$return = call_user_func_array($function, $argsRes);
+		$return = call_user_func_array($function, $argsRes); //! doesn't work with reference parameters
 		
 		// map resource to Resource object
 		if (!self::$returnResource && is_resource($return)) {
