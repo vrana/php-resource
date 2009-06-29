@@ -12,7 +12,7 @@ class MySQL extends Resource {
 	
 	protected function __construct($resource, $name, array $args) {
 		parent::__construct($resource, $name, $args);
-		if (get_resource_type($resource) == 'mysql result') {
+		if ($this->type == 'mysql result') {
 			$this->unshift = true;
 		}
 	}

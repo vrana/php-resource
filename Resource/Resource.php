@@ -14,10 +14,12 @@ abstract class Resource {
 	protected $destructor = '';
 	protected $resources = array(); // resource_type => destructor
 	private $resource;
+	private $type;
 	private $init = array(); // initialization commands, values: array($name, $args)
 	
 	protected function __construct($resource, $name, array $args) {
 		$this->resource = $resource;
+		$this->type = get_resource_type($resource);
 		$this->init[] = array($name, $args);
 	}
 	
@@ -61,9 +63,8 @@ abstract class Resource {
 		// map resource to Resource object
 		if (!self::$returnResource && is_resource($return)) {
 			$object = new static($return, $name, $args);
-			$type = get_resource_type($return);
-			if (isset($object->resources[$type])) {
-				$object->destructor = $object->resources[$type];
+			if (isset($object->resources[$object->type])) {
+				$object->destructor = $object->resources[$object->type];
 			}
 			return $object;
 		}
@@ -72,7 +73,7 @@ abstract class Resource {
 	}
 	
 	public function __toString() {
-		return get_called_class() . " $this->resource";
+		return "$this->type $this->resource";
 	}
 	
 	public function __set_state($vars) {
