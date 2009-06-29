@@ -6,6 +6,7 @@ class Mssql extends Resource {
 	protected $destructor = 'close';
 	protected $resources = array(
 		'mssql link persistent' => '',
+		'mssql statement' => 'freeStatement',
 		'mssql result' => 'freeResult',
 	);
 }

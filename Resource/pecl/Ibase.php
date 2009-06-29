@@ -7,15 +7,10 @@ class Ibase extends Resource {
 	protected $resources = array(
 		'interbase link persistent' => '',
 		'interbase blob' => 'blobClose',
+		'interbase event' => 'freeEventHandler',
 		'interbase query' => 'freeQuery',
 		'interbase result' => 'freeResult',
 		'interbase transaction' => 'rollback',
+		'interbase service manager handle' => '',
 	);
-	
-	protected function __construct($resource, $name, array $args) {
-		parent::__construct($resource, $name, $args);
-		if ($name == 'pconnect') {
-			$this->destructor = '';
-		}
-	}
 }

@@ -5,7 +5,8 @@ class Image extends Resource {
 	protected static $prefix = 'image';
 	protected $destructor = 'destroy';
 	protected $resources = array(
-		'gd font' => '',
+		// 'gd font' uses int
 		'gd PS font' => 'psFreeFont',
+		'gd PS encoding' => '',
 	);
 }
