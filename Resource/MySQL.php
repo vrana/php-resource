@@ -6,4 +6,11 @@ class MySQL extends Resource {
 	protected $unshift = false;
 	protected $destructor = 'close';
 	protected $resources = array('mysql result' => 'freeResult');
+
+	protected function __construct($resource) {
+		parent::__construct($resource);
+		if (get_resource_type($resource) == 'mysql result') {
+			$this->unshift = true;
+		}
+	}
 }
