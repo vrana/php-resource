@@ -7,8 +7,8 @@ class MySQL extends Resource {
 	protected $destructor = 'close';
 	protected $resources = array('mysql result' => 'freeResult');
 
-	protected function __construct($resource) {
-		parent::__construct($resource);
+	protected function __construct($resource, $name, array $args) {
+		parent::__construct($resource, $name, $args);
 		if (get_resource_type($resource) == 'mysql result') {
 			$this->unshift = true;
 		}
