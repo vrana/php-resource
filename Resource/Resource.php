@@ -1,17 +1,16 @@
 <?php
-class ResourceException extends Exception {
-}
-
 abstract class Resource {
 	protected static $prefix = '';
 	protected static $suffix = '';
 	protected $unshift = true;
 	protected $destructor = '';
 	protected $resources = array(); // resource_type => destructor
-	private $readonly = array('resource' => null);
+	private $resource;
+	
+	//! constants
 	
 	protected function __construct($resource) {
-		$this->readonly['resource'] = $resource;
+		$this->resource = $resource;
 	}
 	
 	public function __destruct() {
@@ -22,11 +21,7 @@ abstract class Resource {
 	}
 	
 	public function __get($name) {
-		return $this->readonly[$name];
-	}
-	
-	public function __set($name, $value) {
-		throw new ResourceException("Unable to write to read-only property");
+		return $this->$name;
 	}
 	
 	public function __call($name, array $args) {
