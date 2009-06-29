@@ -1,5 +1,5 @@
 <?php
-include "../Resource/File.php";
+include "../Resource/bundled/File.php";
 
 $dir = Dir::open(".");
 while ($filename = $dir->read()) {

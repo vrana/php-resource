@@ -1,5 +1,5 @@
 <?php
-include "../Resource/MySQL.php";
+include "../Resource/bundled/MySQL.php";
 
 $mysql = MySQL::connect();
 $mysql->initializing = true;

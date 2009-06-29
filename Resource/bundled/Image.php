@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__) . '/Resource.php';
+require_once dirname(__FILE__) . '/../Resource.php';
 
 class Image extends Resource {
 	protected static $prefix = 'image';
