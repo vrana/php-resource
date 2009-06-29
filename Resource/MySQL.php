@@ -5,15 +5,15 @@ class MySQL extends Resource {
 	protected static $prefix = 'mysql_';
 	protected $unshift = false;
 	protected $destructor = 'close';
-	protected $resources = array('mysql result' => 'freeResult');
+	protected $resources = array(
+		'mysql link persistent' => '',
+		'mysql result' => 'freeResult',
+	);
 	
 	protected function __construct($resource, $name, array $args) {
 		parent::__construct($resource, $name, $args);
 		if (get_resource_type($resource) == 'mysql result') {
 			$this->unshift = true;
-		}
-		if ($name == 'pconnect') {
-			$this->destructor = '';
 		}
 	}
 }
