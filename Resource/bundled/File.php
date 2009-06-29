@@ -29,11 +29,6 @@ class File extends Resource {
 	}
 }
 
-class Dir extends Resource {
-	protected static $suffix = 'dir';
-	protected $destructor = 'close';
-}
-
 class StreamContext extends Resource {
 	protected static $prefix = 'stream_context_';
 }

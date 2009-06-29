@@ -7,7 +7,6 @@
 */
 abstract class Resource {
 	protected static $prefix = ''; // end by '_' if functions use '_' as word separator
-	protected static $suffix = '';
 	private static $returnResource = false; // used in __wakeup()
 	public $initializing = false; // set to true before initialization, set back to false after it
 	protected $unshift = true; // resource is the first parameter of functions
@@ -57,7 +56,7 @@ abstract class Resource {
 			}
 		}
 		
-		$function = static::$prefix . ((substr(static::$prefix, -1) == '_') ? preg_replace('~[A-Z]~', '_\\0', $name) : $name) . static::$suffix;
+		$function = static::$prefix . ((substr(static::$prefix, -1) == '_') ? preg_replace('~[A-Z]~', '_\\0', $name) : $name);
 		$return = call_user_func_array($function, $argsRes); //! doesn't work with reference parameters
 		
 		// map resource to Resource object
