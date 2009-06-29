@@ -4,15 +4,19 @@ require_once dirname(__FILE__) . '/Resource.php';
 class File extends Resource {
 	protected static $prefix = 'f';
 	protected $destructor = 'close';
+
+	protected function __construct($resource, $name, array $args) {
+		parent::__construct($resource, $name, $args);
+		if ($name == 'pOpen') {
+			$this->destructor = 'pClose';
+		}
+	}
 	
 	static function __callStatic($name, array $args) {
 		if ($name == 'file' || $name == 'pOpen' || $name == 'rewind' || $name == 'pSockOpen') {
 			self::$prefix = '';
 			if ($name == 'pSockOpen') {
 				$name = 'pFSockOpen';
-			}
-			if ($name == 'pOpen') {
-				$return->destructor = 'pClose';
 			}
 		} elseif (function_exists("file$name")) {
 			self::$prefix = 'file';

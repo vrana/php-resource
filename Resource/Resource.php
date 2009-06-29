@@ -88,7 +88,7 @@ abstract class Resource {
 	public function __wakeup() {
 		self::$returnResource = true;
 		$init = $this->init[0];
-		$this->resource = static::__callStatic($init[0], $init[1], true);
+		$this->resource = static::__callStatic($init[0], $init[1]);
 		self::$returnResource = false;
 		$oldInitializing = $this->initializing;
 		$this->initializing = false;
