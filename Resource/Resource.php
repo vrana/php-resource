@@ -1,16 +1,20 @@
 <?php
+/** Wrapper around the PHP data type resource allowing serialize() and var_export()
+* @link http://code.google.com/p/php-resource/
+* @author Jakub Vrana, http://php.vrana.cz/
+* @copyright 2009 Jakub Vrana
+* @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+*/
 abstract class Resource {
-	protected static $prefix = '';
+	protected static $prefix = ''; // end by '_' if functions use '_' as word separator
 	protected static $suffix = '';
-	private static $returnResource = false;
-	public $initializing = false;
-	protected $unshift = true;
+	private static $returnResource = false; // used in __wakeup()
+	public $initializing = false; // set to true before initialization, set back to false after it
+	protected $unshift = true; // resource is the first parameter of functions
 	protected $destructor = '';
 	protected $resources = array(); // resource_type => destructor
 	private $resource;
-	private $init = array();
-	
-	//! constants
+	private $init = array(); // initialization commands, values: array($name, $args)
 	
 	protected function __construct($resource, $name, array $args) {
 		$this->resource = $resource;
@@ -78,7 +82,7 @@ abstract class Resource {
 			$return->__call($init[0], $init[1]);
 		}
 		foreach ($vars as $key => $val) {
-			if ($key != 'resource') {
+			if ($key != 'resource') { // contains null
 				$return->$key = $val;
 			}
 		}
@@ -91,7 +95,7 @@ abstract class Resource {
 		$this->resource = static::__callStatic($init[0], $init[1]);
 		self::$returnResource = false;
 		$oldInitializing = $this->initializing;
-		$this->initializing = false;
+		$this->initializing = false; // don't overwrite
 		foreach ($this->init as $i => $init) {
 			if ($i) {
 				$this->__call($init[0], $init[1]);
