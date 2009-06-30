@@ -20,7 +20,6 @@ include_once dirname(__FILE__) . "/extensions/Oci.php";
 include_once dirname(__FILE__) . "/extensions/OpenSSL.php";
 include_once dirname(__FILE__) . "/extensions/PgSQL.php";
 include_once dirname(__FILE__) . "/extensions/Proc.php";
-include_once dirname(__FILE__) . "/extensions/SQLite.php";
 include_once dirname(__FILE__) . "/extensions/Sybase.php";
 include_once dirname(__FILE__) . "/extensions/XmlRpc.php";
 include_once dirname(__FILE__) . "/pecl/Dba.php";
@@ -29,5 +28,5 @@ include_once dirname(__FILE__) . "/pecl/Gmp.php";
 include_once dirname(__FILE__) . "/pecl/Ibase.php";
 include_once dirname(__FILE__) . "/pecl/Sysv.php";
 
-// Dir, Finfo, XmlWriter uses internal class
+// Dir, Finfo, SQLite, XmlWriter uses internal class
 // Pspell, Shmop uses ints
