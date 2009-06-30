@@ -15,15 +15,19 @@ class File extends Resource {
 	}
 	
 	static function __callStatic($name, array $args) {
-		if ($name == 'file' || $name == 'pOpen' || $name == 'rewind' || $name == 'pSockOpen') {
-			self::$prefix = '';
-			if ($name == 'pSockOpen') {
-				$name = 'pFSockOpen';
+		if (!function_exists("f$name")) {
+			if (function_exists("file$name")) {
+				self::$prefix = 'file';
+			} elseif (function_exists("file_" . preg_replace('~[A-Z]~', '_\\0', $name))) {
+				self::$prefix = 'file_';
+			} else {
+				if ($name == 'pSockOpen') {
+					$name = 'pFSockOpen';
+				}
+				// rewind, popen don't start with 'f'
+				// copy, file, mkdir, readfile, rename, rmdir, unlink use context
+				self::$prefix = '';
 			}
-		} elseif (function_exists("file$name")) {
-			self::$prefix = 'file';
-		} elseif (function_exists("file_" . preg_replace('~[A-Z]~', '_\\0', $name))) {
-			self::$prefix = 'file_';
 		}
 		$return = parent::__callStatic($name, $args);
 		self::$prefix = 'f';
