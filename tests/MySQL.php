@@ -1,4 +1,6 @@
 <?php
+use Resource\MySQL;
+
 include "../Resource/extensions/MySQL.php";
 
 $mysql = MySQL::connect();

@@ -1,4 +1,6 @@
 <?php
+namespace Resource;
+
 /** Wrapper around the PHP data type resource allowing serialize() and var_export()
 * @link http://code.google.com/p/php-resource/
 * @author Jakub Vrana, http://php.vrana.cz/
