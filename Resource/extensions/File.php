@@ -6,6 +6,9 @@ require_once dirname(__FILE__) . '/../Resource.php';
 class File extends Resource {
 	protected static $prefix = 'f';
 	protected $destructor = 'close';
+	protected $resources = array(
+		'stream filter' => 'streamFilterRemove',
+	);
 
 	protected function __construct($resource, $name, array $args) {
 		parent::__construct($resource, $name, $args);
@@ -37,4 +40,9 @@ class File extends Resource {
 
 class StreamContext extends Resource {
 	protected static $prefix = 'stream_context_';
+}
+
+class StreamSocket extends Resource {
+	protected static $prefix = 'stream_socket_';
+	protected $destructor = 'shutdown';
 }
