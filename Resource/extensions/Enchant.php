@@ -9,4 +9,8 @@ class Enchant extends Resource {
 	protected $resources = array(
 		'enchant_dict' => '',
 	);
+	
+	function dictQuickCheck($word, &$suggestions = null) {
+		return enchant_dict_quick_check($this->resource, $word, $suggestions);
+	}
 }

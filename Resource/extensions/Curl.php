@@ -11,4 +11,8 @@ class Curl extends Resource {
 class CurlMulti extends Resource {
 	protected static $prefix = 'curl_multi_';
 	protected $destructor = 'close';
+	
+	function exec(&$still_running = null) {
+		return curl_multi_exec($this->resource, $still_running);
+	}
 }

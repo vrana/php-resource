@@ -10,4 +10,11 @@ class Odbc extends Resource {
 		'odbc link persistent' => '',
 		'odbc result' => 'freeResult',
 	);
+	
+	function fetchInto(&$result_array, $rownumber = null) {
+		switch (func_num_args()) {
+			case 1: return odbc_fetch_into($this->resource, $result_array);
+			case 2: return odbc_fetch_into($this->resource, $result_array, $rownumber);
+		}
+	}
 }

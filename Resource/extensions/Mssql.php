@@ -11,4 +11,8 @@ class Mssql extends Resource {
 		'mssql statement' => 'freeStatement',
 		'mssql result' => 'freeResult',
 	);
+	
+	function bind($param_name, &$var, $type, $is_output = false, $is_null = false, $maxlen = -1) {
+		return mssql_bind($this->resource, $param_name, $var, $type, $is_output, $is_null, $maxlen);
+	}
 }

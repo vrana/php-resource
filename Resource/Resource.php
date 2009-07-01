@@ -59,7 +59,7 @@ abstract class Resource {
 		}
 		
 		$function = static::$prefix . ((substr(static::$prefix, -1) == '_') ? preg_replace('~[A-Z]~', '_\\0', $name) : $name);
-		$return = call_user_func_array($function, $argsRes); //! doesn't work with reference parameters
+		$return = call_user_func_array($function, $argsRes); //! doesn't work with reference parameters (set_state and wakeup)
 		
 		// map resource to Resource object
 		if (!self::$returnResource && is_resource($return)) {
@@ -106,3 +106,5 @@ abstract class Resource {
 		$this->initializing = $oldInitializing;
 	}
 }
+
+//! store functions with reference parameters to $init
