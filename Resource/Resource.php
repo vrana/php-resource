@@ -25,9 +25,8 @@ abstract class Resource {
 	}
 	
 	public function __destruct() {
-		$destructor = $this->destructor;
-		if ($destructor) {
-			$this->$destructor();
+		if ($this->destructor) {
+			$this->__call($this->destructor, array());
 		}
 	}
 	
@@ -36,9 +35,7 @@ abstract class Resource {
 	}
 	
 	public function __call($name, array $args) {
-		if ($this->initializing) {
-			$this->init[] = array($name, $args);
-		}
+		$this->history($name, $args);
 		if ($this->unshift) {
 			array_unshift($args, $this->resource);
 		} else {
@@ -61,16 +58,7 @@ abstract class Resource {
 		$function = static::$prefix . ((substr(static::$prefix, -1) == '_') ? preg_replace('~[A-Z]~', '_\\0', $name) : $name);
 		$return = call_user_func_array($function, $argsRes); //! doesn't work with reference parameters (set_state and wakeup)
 		
-		// map resource to Resource object
-		if (!self::$returnResource && is_resource($return)) {
-			$object = new static($return, $name, $args);
-			if (isset($object->resources[$object->type])) {
-				$object->destructor = $object->resources[$object->type];
-			}
-			return $object;
-		}
-		
-		return $return;
+		return static::init($return, $name, $args);
 	}
 	
 	public function __toString() {
@@ -105,6 +93,23 @@ abstract class Resource {
 		}
 		$this->initializing = $oldInitializing;
 	}
+	
+	protected static function init($return, $name, array $args) {
+		// map resource to Resource object
+		if (!self::$returnResource && is_resource($return)) {
+			$object = new static($return, $name, $args);
+			if (isset($object->resources[$object->type])) {
+				$object->destructor = $object->resources[$object->type];
+			}
+			return $object;
+		}
+		return $return;
+	}
+	
+	protected function history($name, array $args) {
+		//! call in functions with reference parameters
+		if ($this->initializing) {
+			$this->init[] = array($name, $args);
+		}
+	}
 }
-
-//! store functions with reference parameters to $init

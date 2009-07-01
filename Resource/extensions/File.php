@@ -40,11 +40,8 @@ class File extends Resource {
 		} else {
 			$return = fsockopen($target, $port, $errno, $errstr);
 		}
-		if (is_resource($return)) {
-			$args = func_get_args();
-			return new self($return, __FUNCTION__, $args);
-		}
-		return $return;
+		$args = func_get_args();
+		return self::init($return, __FUNCTION__, $args);
 	}
 	
 	static function pSockOpen($hostname, $port, &$errno = null, &$errstr = null, $timeout = null) {
@@ -53,11 +50,8 @@ class File extends Resource {
 		} else {
 			$return = pfsockopen($hostname, $port, $errno, $errstr);
 		}
-		if (is_resource($return)) {
-			$args = func_get_args();
-			return new self($return, __FUNCTION__, $args);
-		}
-		return $return;
+		$args = func_get_args();
+		return self::init($return, __FUNCTION__, $args);
 	}
 	
 	function lock($operation, &$wouldblock = null) {
@@ -101,11 +95,8 @@ class StreamSocket extends Resource {
 		} else {
 			$return = stream_socket_client($remote_socket, $errno, $errstr);
 		}
-		if (is_resource($return)) {
-			$args = func_get_args();
-			return new self($return, __FUNCTION__, $args);
-		}
-		return $return;
+		$args = func_get_args();
+		return self::init($return, __FUNCTION__, $args);
 	}
 	
 	static function server($local_socket, &$errno = null, &$errstr = null, $timeout = null, $flags = 12, $context = null) { // 12 - STREAM_SERVER_BIND | STREAM_SERVER_LISTEN
@@ -117,11 +108,8 @@ class StreamSocket extends Resource {
 		} else {
 			$return = stream_socket_client($local_socket, $errno, $errstr);
 		}
-		if (is_resource($return)) {
-			$args = func_get_args();
-			return new self($return, __FUNCTION__, $args);
-		}
-		return $return;
+		$args = func_get_args();
+		return self::init($return, __FUNCTION__, $args);
 	}
 	
 	function accept($timeout = null, &$peername = null) {
@@ -130,11 +118,8 @@ class StreamSocket extends Resource {
 		} else {
 			$return = stream_socket_accept($this->resource);
 		}
-		if (is_resource($return)) {
-			$args = func_get_args();
-			return new self($return, __FUNCTION__, $args);
-		}
-		return $return;
+		$args = func_get_args();
+		return self::init($return, __FUNCTION__, $args);
 	}
 	
 	function recvfrom($length, $flags = 0, &$address = null) {

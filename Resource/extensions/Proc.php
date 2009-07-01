@@ -9,10 +9,7 @@ class Proc extends Resource {
 	
 	static function open($cmd, $descriptorspec, &$pipes, $cwd = null, $env = array(), $other_options = array()) {
 		$return = proc_open($cmd, $descriptorspec, $pipes, $cwd, $env, $other_options);
-		if (is_resource($return)) {
-			$args = func_get_args();
-			return new self($return, __FUNCTION__, $args);
-		}
-		return $return;
+		$args = func_get_args();
+		return self::init($return, __FUNCTION__, $args);
 	}
 }

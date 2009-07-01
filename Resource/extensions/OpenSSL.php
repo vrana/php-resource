@@ -14,11 +14,8 @@ class OpenSSL extends Resource {
 	
 	static function csrNew($dn, &$privkey, $configargs = array(), $extraattribs = array()) {
 		$return = openssl_csr_new($dn, $privkey, $configargs, $extraattribs);
-		if (is_resource($return)) {
-			$args = func_get_args();
-			return new self($return, __FUNCTION__, $args);
-		}
-		return $return;
+		$args = func_get_args();
+		return self::init($return, __FUNCTION__, $args);
 	}
 	
 	function csrExport(&$out, $notext = true) {
