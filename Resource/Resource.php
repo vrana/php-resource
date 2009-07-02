@@ -45,6 +45,8 @@ abstract class Resource {
 	}
 	
 	static function __callStatic($name, array $args) {
+		// PHP doesn't support arguments passed by reference in __callStatic() so such methods must be defined individually
+		
 		// map Resource objects back to resources
 		$argsRes = array();
 		foreach ($args as $arg) {
@@ -57,7 +59,6 @@ abstract class Resource {
 		
 		$function = static::$prefix . ((substr(static::$prefix, -1) == '_') ? preg_replace('~[A-Z]~', '_\\0', $name) : $name);
 		$return = call_user_func_array($function, $argsRes); //! doesn't work with reference parameters (set_state and wakeup)
-		
 		return static::init($return, $name, $args);
 	}
 	
