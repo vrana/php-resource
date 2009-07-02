@@ -59,22 +59,15 @@ class File extends Resource {
 	}
 	
 	function scanF($format, &$arg1 = null, &$arg2 = null, &$arg3 = null, &$arg4 = null, &$arg5 = null, &$arg6 = null, &$arg7 = null, &$arg8 = null, &$arg9 = null, &$arg10 = null) {
-		// can be rewritten with eval() but it would be even uglier
-		switch (func_num_args() - 1) {
-			default: trigger_error('File::scanF() supports up to 10 variables', E_USER_WARNING);
-			case 10: return fscanf($this->resource, $format, $arg1, $arg2, $arg3, $arg4, $arg5, $arg6, $arg7, $arg8, $arg9, $arg10);
-			case 9: return fscanf($this->resource, $format, $arg1, $arg2, $arg3, $arg4, $arg5, $arg6, $arg7, $arg8, $arg9);
-			case 8: return fscanf($this->resource, $format, $arg1, $arg2, $arg3, $arg4, $arg5, $arg6, $arg7, $arg8);
-			case 7: return fscanf($this->resource, $format, $arg1, $arg2, $arg3, $arg4, $arg5, $arg6, $arg7);
-			case 6: return fscanf($this->resource, $format, $arg1, $arg2, $arg3, $arg4, $arg5, $arg6);
-			case 5: return fscanf($this->resource, $format, $arg1, $arg2, $arg3, $arg4, $arg5);
-			case 4: return fscanf($this->resource, $format, $arg1, $arg2, $arg3, $arg4);
-			case 3: return fscanf($this->resource, $format, $arg1, $arg2, $arg3);
-			case 2: return fscanf($this->resource, $format, $arg1, $arg2);
-			case 1: return fscanf($this->resource, $format, $arg1);
-			case 0:
-			case -1: return fscanf($this->resource, $format);
+		if (func_num_args() > 11) {
+			trigger_error('File::scanF() supports up to 10 variables', E_USER_WARNING);
 		}
+		$args = array($this->resource, $format);
+		$count = min(11, func_num_args());
+		for ($i=1; $i < $count; $i++) {
+			$args[] = &${"arg$i"};
+		}
+		return call_user_func_array('fscanf', $args);
 	}
 }
 
